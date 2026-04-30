@@ -1,0 +1,35 @@
+---
+id: e0774659-6908-47ab-946b-1df85815051a
+---
+flowchart TD
+    A[Requesting Unit] --> B[Prepare Documents:<br/>- Service Request Form<br/>- Business Case*]
+    B --> C{Unit Head<br/>Approval?}
+    C -->|No| D[Return for Revision]
+    C -->|Yes| E[Submit to DOTD Service Desk<br/> via Document Flow System]
+    E --> F[DOTD Triage & Feasibility Check<br/> SLA: 3-5 days]
+
+    F --> G{Request Type}
+    G -->|Routine<br/> e.g., device fix, training| H[DOTD Department Head<br/>Approval]
+    G -->|Major<br/> e.g., new software, infrastructure | I[General Director Review]
+
+    H --> K[DOTD Execute<br/>Assign Project ID]
+    I --> J{Cost > $10K or<br/>Cross-Unit Impact?}
+    J -->|No| K
+    J -->|Yes| L[Secretariat of State Review]
+    L --> M{Ministry-Wide<br/>Impact?}
+    M -->|No| K
+    M -->|Yes| N[Deputy Minister Approval]
+    N --> K
+
+    K --> O[Track via:<br/>- Document Archive<br/>- Monthly Reports]
+    O --> P[Closeout Report to Requesting Unit]
+    P --> Q{Feedback<br/>Received?}
+    Q -->|Yes| R[Update SOPs/Knowledge Base]
+    Q -->|No| S[Auto-close after 7 days]
+
+    classDef routine fill:#d4f7d4,stroke:#333
+    classDef major fill:#ffe8c4,stroke:#333
+    classDef exec fill:#c4d4ff,stroke:#333
+    class G,H routine
+    class I,J,L,M,N major
+    class K,O,P exec
