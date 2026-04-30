@@ -2121,6 +2121,34 @@ class OfficerController extends Controller
             'message' => 'រួចរាល់'
         ],200);
     }
+    public function delete(Request $request){
+        $officer = RecordModel::find($request->id);
+
+        if( $officer ){
+            if( $officer->user != null ){
+                $officer->user->deleted_at = \Carbon\Carbon::now();
+                $officer->user->save();
+            }
+            if( $officer->people != null ){
+                $officer->people->deleted_at = \Carbon\Carbon::now();
+                $officer->people->save();
+            }
+
+            $officer->delete();
+
+            return response()->json([
+                'ok' => true,
+                'officer' => $officer,
+                'message' => 'លុបមន្ត្រីបានសម្រេច។'
+            ],200);
+        }
+
+        return response()->json([
+            'ok' => false,
+            'officer' => null,
+            'message' => 'រកមិនឃើញមន្ត្រីនេះទេ។'
+        ],404);
+    }
     public function officersSignatures(){
         return response()->json([
             'ok' => true ,
