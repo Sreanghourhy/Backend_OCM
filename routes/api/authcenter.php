@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Http\Controllers\Api\AuthenticationCenter\UserController;
 use App\Http\Controllers\Api\AuthenticationCenter\PeopleController;
 use App\Http\Controllers\Api\AuthenticationCenter\RoleController;
 use App\Http\Controllers\Api\AuthenticationCenter\ProfileController;
+use App\Http\Controllers\Api\AuthenticationCenter\TelegramPasswordController;
 
 Route::group([
     'prefix' => 'authcenter' ,
@@ -37,6 +39,12 @@ Route::group([
             Route::get('confirm', [AuthController::class,'confirmAuthentication']);
 
         });
+    });
+    //telegram passwordless login
+    Route::prefix('password/forgot/telegram')->group(function () {
+        Route::put('/send', [TelegramPasswordController::class, 'sendOtp']);
+        Route::put('/verify', [TelegramPasswordController::class, 'verifyOtp']);
+        Route::put('/reset', [TelegramPasswordController::class, 'resetPassword']);
     });
 
     /** USER/ACCOUNT SECTION */
@@ -139,6 +147,7 @@ Route::group([
             // Route::get('email/exist',[UserController::class,'checkEmail']);
             // Route::post('upload',[UserController::class,'upload']);
     });
+
 
     require( 'authcenter/attendant.php');
     require( 'authcenter/regulator.php');
